@@ -4,19 +4,24 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class PlayerTes5t
+public class PlayerTest
 {
+
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
-    public IEnumerator PlayerTes5tWithEnumeratorPasses()
+    public IEnumerator PlayerTestWithEnumeratorPasses()
     {
-        // Prepare
-        GameObject obj = new GameObject();
+        var obj = new GameObject();
         var player = obj.AddComponent<PlayerScripts>();
-        
-        // Execute
+        player.points.Add(new Vector3(0, 1, 0));
+        player.points.Add(new Vector3(6, 1, 0));
+        player.points.Add(new Vector3(6, 4.5f, 0));
 
-        yield return null;
+        player.nextPoint = player.points[0];
+        player.MoveToTheNextPoint();
+        yield return new WaitForSeconds(2f);
+
+        Assert.AreEqual(player.points[+1], player.nextPoint);
     }
 }
