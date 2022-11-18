@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 4263580340608463807}
   - component: {fileID: 4263580340608463806}
   - component: {fileID: 4263580340608463776}
+  - component: {fileID: 1220021953}
+  - component: {fileID: 1220021955}
   m_Layer: 0
-  m_Name: Down 0
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,10 +98,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points:
-  - {x: 0, y: 1, z: 0}
-  - {x: 6, y: 2, z: 0}
+  - {x: 0, y: 1.5, z: 0}
+  - {x: 6, y: 1, z: 0}
   - {x: 6, y: 4.5, z: 0}
   nextPoint: {x: 0, y: 0, z: 0}
   speed: 2
   isFinish: 0
+  isStart: 1
   isLeft: 1
+--- !u!95 &1220021953
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263580340608463805}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 663a6ce105ad44e32abbbafd473c2a94, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1220021955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4263580340608463805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8076bffaeaca4906bdc3e05a2781bce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 1220021953}
+  sr: {fileID: 4263580340608463806}

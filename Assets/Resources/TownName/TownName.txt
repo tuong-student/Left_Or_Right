@@ -1,0 +1,108 @@
+An Giang
+Ben Tre
+Cao Bang
+Dong Thap
+Hai Phong
+Ho Chi Minh
+Kien Giang
+Lam Dong
+Long An
+Quang Ninh
+Son La
+Tay Ninh
+Thanh Hoa
+Thai Binh
+Tien Giang
+Lang Son
+Dong Nai
+Ha Noi
+Ba Ria-Vung Tau
+Binh Dinh
+Binh Thuan
+Gia Lai
+Ha Giang
+Ha Tinh
+Hoa Binh
+Khanh Hoa
+Kon Tum
+Nghe An
+Ninh Binh
+Ninh Thuan
+Phu Yen
+Quang Binh
+Quang Ngai
+Quang Tri
+Soc Trang
+Thua Thien-Hue
+Tra Vinh
+Tuyen Quang
+Vinh Long
+Yen Bai
+Bac Giang
+Bac Kan
+Bac Lieu
+Bac Ninh
+Binh Duong
+Binh Phuoc
+Ca Mau
+Da Nang
+Hai Duong
+Ha Nam
+Hung Yen
+Nam Dinh
+Phu Tho
+Quang Nam
+Thai Nguyen
+Vinh Phuc
+Can Tho
+Dak Lak
+Lai Chau
+Lao Cai
+Dak Nong
+Dien Bien
+Hau Giang
+Aguascalientes
+Baja California
+Baja California Sur
+Campeche
+Chiapas
+Chihuahua
+Coahuila de Zaragoza
+Colima
+Distrito Federal
+Durango
+Guanajuato
+Guerrero
+Hidalgo
+Jalisco
+Mexico
+Michoacan de Ocampo
+Morelos
+Nayarit
+Nuevo Leon
+Oaxaca
+Puebla
+Queretaro
+Quintana Roo
+San Luis Potosi
+Sinaloa
+Sonora
+Tabasco
+Tamaulipas
+Tlaxcala
+Veracruz
+Yucatan
+Zacatecas
+Alberta
+British Columbia
+Manitoba
+New Brunswick
+Terre-Neuve-et-Labrador
+Nova Scotia
+Ontario
+Prince Edward Island
+Quebec
+Saskatchewan
+Yukon
+Northwest Territories
+Nunavut
