@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &93208867
 RectTransform:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: <color=#D70000> Left Or right? </color>
+  m_Text: Left Or right?
 --- !u!1 &717242070
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &858595501
 RectTransform:
   m_ObjectHideFlags: 0
@@ -225,9 +225,9 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 224
+    m_FontSize: 200
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 224
     m_Alignment: 4
@@ -452,20 +452,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a, type: 3}
-    m_FontSize: 43
+    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
+    m_FontSize: 30
     m_FontStyle: 1
     m_BestFit: 1
-    m_MinSize: 0
-    m_MaxSize: 244
+    m_MinSize: 20
+    m_MaxSize: 260
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -638,19 +638,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490a7944a6550497c8b4e8727d116af1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ButtonZone: {fileID: 6568296689128443997}
   TownZone: {fileID: 8376835237920742807}
-  IntroPanel: {fileID: 941968826}
-  leftBtn: {fileID: 1834175191597314843}
-  rightBtn: {fileID: 1834175190448799669}
-  startBtn: {fileID: 2049506953}
-  txtTown1: {fileID: 1900871322}
-  txtTown2: {fileID: 8607433616744254549}
+  ButtonZone: {fileID: 6568296689128443997}
+  IntroZone: {fileID: 941968826}
+  btnLeft: {fileID: 1858180907}
+  btnRight: {fileID: 716479365}
+  txtTown1: {fileID: 2058080532}
+  txtTown2: {fileID: 242561298}
   txtRouteText: {fileID: 1068061550}
-  txtIntroText: {fileID: 93208868}
   txtEndText: {fileID: 858595502}
-  town1: 
-  town2: 
+  txtIntroText: {fileID: 93208868}
+  startBtn: {fileID: 2049506953}
 --- !u!1 &1834175190448799671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1054,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 700, y: 1200}
+  m_AnchoredPosition: {x: 700.00006, y: 1000}
   m_SizeDelta: {x: 150, y: 73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7246186577649825994
@@ -1109,6 +1107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38399186e89d4b8580eaa122fa8892c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Text: {fileID: 8607433616744254549}
 --- !u!1 &5991400915791056414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,7 +1144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -700, y: 1200}
+  m_AnchoredPosition: {x: -700, y: 1000}
   m_SizeDelta: {x: 150, y: 73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2063995150581758163
@@ -1198,6 +1197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38399186e89d4b8580eaa122fa8892c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Text: {fileID: 1900871322}
 --- !u!1 &6568296689128443997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,8 +1301,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 585188cdc4600544eb408bee749e4b3a, type: 3}
-    m_FontSize: 43
+    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
+    m_FontSize: 36
     m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 0

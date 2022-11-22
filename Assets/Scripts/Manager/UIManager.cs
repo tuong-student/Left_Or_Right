@@ -6,126 +6,111 @@ using DG.Tweening;
 
 public class UIManager : MonoBehaviorInstance<UIManager>
 {
-    [SerializeField] GameObject ButtonZone, TownZone, IntroPanel;
-    [SerializeField] Button leftBtn, rightBtn, startBtn;
-    [SerializeField] Text txtTown1, txtTown2, txtRouteText, txtIntroText, txtEndText;
-    bool isFirstClick = true;
-    bool isDisplayEndGame = false;
+    [SerializeField] GameObject TownZone, ButtonZone, IntroZone;
+    [SerializeField] CustomButton btnLeft, btnRight;
+    [SerializeField] CustomPanel txtTown1, txtTown2;
+    [SerializeField] Text txtRouteText, txtEndText, txtIntroText;
+    [SerializeField] Button startBtn;
+    string town1, town2;
 
-    public string town1, town2;
+    bool isDisplayEnd = false;
+    bool isFirstTime = true;
 
     private void Start()
     {
-        IntroPanel.SetActive(true);
-        ButtonZone.SetActive(false);
+        IntroZone.SetActive(true);
         TownZone.SetActive(false);
-        txtIntroText.gameObject.SetActive(true);
-        txtRouteText.gameObject.SetActive(false);
-        startBtn.gameObject.SetActive(true);
+        ButtonZone.SetActive(false);
         txtEndText.gameObject.SetActive(false);
-
-        leftBtn.onClick.AddListener(() =>
-        {
-            GameManager.Instance.SetLeft(true);
-            PlayerScripts.Instance.isStart = false;
-            PlayerScripts.Instance.isFinish = false;
-            leftBtn.gameObject.transform.DOMoveY(-200f, 0.5f).SetEase(Ease.InBounce);
-            rightBtn.gameObject.transform.DOMoveY(-200f, 0.5f).SetEase(Ease.InBounce);
-            txtTown1.gameObject.transform.parent.DOMoveY(1200f, 0.5f).SetEase(Ease.InBounce);
-            txtTown2.gameObject.transform.parent.DOMoveY(1200f, 0.5f).SetEase(Ease.InBounce);
-            GameManager.Instance.CheckChooseCorrect();
-            Invoke("SetActiveFalse", 0.5f);
-        });
-
-        rightBtn.onClick.AddListener(() =>
-        {
-            GameManager.Instance.SetLeft(false);
-            PlayerScripts.Instance.isStart = false;
-            PlayerScripts.Instance.isFinish = false;
-            leftBtn.gameObject.transform.DOMoveY(-200f, 0.5f).SetEase(Ease.InBounce);
-            rightBtn.gameObject.transform.DOMoveY(-200f, 0.5f).SetEase(Ease.InBounce);
-            txtTown1.gameObject.transform.parent.DOMoveY(1200f, 0.5f).SetEase(Ease.InBounce);
-            txtTown2.gameObject.transform.parent.DOMoveY(1200f, 0.5f).SetEase(Ease.InBounce);
-            GameManager.Instance.CheckChooseCorrect();
-            Invoke("SetActiveFalse", 0.5f);
-        });
 
         startBtn.onClick.AddListener(() =>
         {
-            if (isFirstClick)
+            if (isFirstTime)
             {
                 txtIntroText.gameObject.SetActive(false);
-                txtRouteText.gameObject.SetActive(true);
-                isFirstClick = false;
+                DisplayRoutes();
+                isFirstTime = false;
             }
             else
             {
-                txtRouteText.gameObject.transform.parent.gameObject.SetActive(false);
-                ButtonZone.SetActive(true);
-                TownZone.SetActive(true);
+                ActiveUI();
+                IntroZone.SetActive(false);
             }
+        });
+
+        btnLeft.SetAction(() =>
+        {
+            PlayerScripts.Instance.Go(true);
+            btnLeft.HideAnimation();
+            btnRight.HideAnimation();
+            txtTown1.HideAnimation();
+            txtTown2.HideAnimation();
+            GameManager.Instance.choosenTown = town1;
+
+            Invoke("DeactiveUI", 0.5f);
+        });
+
+        btnRight.SetAction(() =>
+        {
+            PlayerScripts.Instance.Go(false);
+            btnLeft.HideAnimation();
+            btnRight.HideAnimation();
+            txtTown1.HideAnimation();
+            txtTown2.HideAnimation();
+            GameManager.Instance.choosenTown = town2;
+
+            Invoke("DeactiveUI", 0.5f);
         });
     }
 
-    void SetActiveFalse()
+    public void SetTown(string town1, string town2)
     {
-        leftBtn.gameObject.SetActive(false);
-        rightBtn.gameObject.SetActive(false);
-        txtTown1.transform.parent.gameObject.SetActive(false);
-        txtTown2.transform.parent.gameObject.SetActive(false);
+        this.town1 = town1;
+        this.town2 = town2;
+        txtTown1.SetText(town1);
+        txtTown2.SetText(town2);
     }
 
-    public void SetUIActiveTrue()
+    public void DisplayRoutes()
     {
-        leftBtn.gameObject.SetActive(true);
-        rightBtn.gameObject.SetActive(true);
-        txtTown1.transform.parent.gameObject.SetActive(true);
-        txtTown2.transform.parent.gameObject.SetActive(true);
-    }
-
-    public void DisplayTown(string town1, string town2)
-    {
-        int r = Random.Range(0, 2);
-        if(r < 1)
+        List<string> routes = GameManager.Instance.routes;
+        string displayRoutes = "";
+        for (int i = 0; i < routes.Count; i++)
         {
-            txtTown1.text = town1;
-            txtTown2.text = town2;
-            this.town1 = town1;
-            this.town2 = town2;
+            if (i != routes.Count - 1)
+                displayRoutes += routes[i] + " -> ";
+            else
+                displayRoutes += routes[i] + ".";
+        }
+        txtRouteText.text = displayRoutes;
+    }
+
+    public void ActiveUI()
+    {
+        TownZone.SetActive(true);
+        ButtonZone.SetActive(true);
+    }
+
+    public void DeactiveUI()
+    {
+        TownZone.SetActive(false);
+        ButtonZone.SetActive(false);
+    }
+
+    public void SetEndText(bool isWin)
+    {
+        if (isDisplayEnd) return;
+        if (isWin)
+        {
+
         }
         else
         {
-            txtTown1.text = town2;
-            txtTown2.text = town1;
-            this.town1 = town2;
-            this.town2 = town1;
+            txtEndText.transform.DOScale(0, 0f);
+            txtEndText.gameObject.SetActive(true);
+            txtEndText.text = "You choose wrong";
+            txtEndText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo);
         }
-    }
-
-    public void SetRouteText(List<string> routes)
-    {
-        foreach(var route in routes)
-        {
-            if(routes.IndexOf(route) == routes.Count - 1)
-            {
-                txtRouteText.text += route + ".";
-            }
-            else
-            {
-                txtRouteText.text += route + " -> ";
-            }
-        }
-    }
-
-    public void DisplayEndText(bool isWin)
-    {
-        if (isDisplayEndGame) return;
-
-        txtEndText.gameObject.SetActive(true);
-        if (isWin) txtEndText.text = "You Won";
-        else txtEndText.text = "You was wrong";
-        txtEndText.gameObject.transform.DOScale(0, 0f);
-        txtEndText.gameObject.transform.DOScale(1, 1f).SetEase(Ease.OutBack);
-        isDisplayEndGame = true;
+        isDisplayEnd = true;
     }
 }

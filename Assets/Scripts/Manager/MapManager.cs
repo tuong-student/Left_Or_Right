@@ -4,27 +4,38 @@ using UnityEngine;
 
 public class MapManager : MonoBehaviorInstance<MapManager>
 {
-    [SerializeField] List<GameObject> mapList;
+    [SerializeField] List<GameObject> mapList = new List<GameObject>();
+    [SerializeField] GameObject homeMap;
+
     int mapIndex;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (GameManager.Instance.isWin == false) return;
         if(PlayerScripts.Instance.isFinish && !PlayerScripts.Instance.isStart)
         {
-            var temp = Random.Range(0, mapList.Count - 1);
+            if (GameManager.Instance.isWrong) return;
+            int temp = Random.Range(0, mapList.Count - 1);
             while(temp == mapIndex)
             {
                 temp = Random.Range(0, mapList.Count - 1);
             }
             mapIndex = temp;
 
-            for (int i = 0; i < mapList.Count; i++)
+            for(int i = 0; i < mapList.Count; i++)
             {
-                if(i != mapIndex) mapList[i].SetActive(false);
-                else mapList[i].SetActive(true);
+                if (i == mapIndex) mapList[i].SetActive(true);
+                else mapList[i].SetActive(false);
             }
-        }       
+            PlayerScripts.Instance.Return();
+        }
+    }
+
+    public void DisplayHomeMap()
+    {
+        foreach(var map in mapList)
+        {
+            map.SetActive(false);
+        }
+        homeMap.SetActive(true);
     }
 }

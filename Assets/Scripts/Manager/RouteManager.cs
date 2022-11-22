@@ -4,49 +4,53 @@ using UnityEngine;
 
 public class RouteManager : MonoBehaviorInstance<RouteManager>
 {
+    public TextAsset Towns;
+    List<string> routes = new List<string>();
 
-    public List<string> CreateRoute(int numberOfTown)
+    public List<string> CreateRandomRoute(int townNumber)
     {
-        List<string> route = new List<string>();
-        for(int i = 0; i < numberOfTown; i++)
+        for (int i = 0; i < townNumber; i++)
         {
-            string newTown = TownMaster.RandomTown();
-            while (route.Contains(newTown))
+            string temp = TownMaster.GetRandomTown();
+            while (routes.Contains(temp))
             {
-                newTown = TownMaster.RandomTown();
+                temp = TownMaster.GetRandomTown();
             }
-            route.Add(newTown);
+            routes.Add(temp);
         }
-        return route;
+
+        return routes;
     }
 }
 
 public class TownMaster
 {
 
-    public static string RandomTown()
+    public static string[] GetTowns()
     {
-        string[] splitNewLine = new string[] { "\r\n", "\r", "\n" };
-        char[] splitLine = new char[] { ',' };
-        string[] lines;
-        var TownName = GameManager.Instance.TownName;
-        lines = TownName.text.Split(splitNewLine, System.StringSplitOptions.RemoveEmptyEntries);
-        int r = Random.Range(0, lines.Length - 1);
-        return lines[r];
+        string[] splitNewRow = new string[] { "\r\n", "\r", "\n" };
+        char[] slitRow = new char[] { ',' };
+        string[] Lines = RouteManager.Instance.Towns.text.Split(splitNewRow, System.StringSplitOptions.RemoveEmptyEntries);
+        return Lines;
     }
 
-    public static string RandomTownExcept(string exception)
+    public static string GetRandomTown()
     {
-        string[] splitNewLine = new string[] { "\r\n", "\r", "\n" };
-        char[] splitLine = new char[] { ',' };
-        string[] lines;
-        var TownName = GameManager.Instance.TownName;
-        lines = TownName.text.Split(splitNewLine, System.StringSplitOptions.RemoveEmptyEntries);
-        int r = Random.Range(0, lines.Length - 1);
-        while (lines[r].Equals(exception))
+        string[] Lines = GetTowns();
+
+        int r = Random.Range(0, Lines.Length - 1);
+        return Lines[r];
+    }
+
+    public static string GetRandomTownExcept(string exception)
+    {
+        string[] Lines = GetTowns();
+
+        int r = Random.Range(0, Lines.Length - 1);
+        while (Lines[r].Equals(exception))
         {
-            r = Random.Range(0, lines.Length - 1);
+            r = Random.Range(0, Lines.Length - 1);
         }
-        return lines[r];
+        return Lines[r];
     }
 }

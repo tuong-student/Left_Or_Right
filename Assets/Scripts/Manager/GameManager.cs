@@ -6,82 +6,69 @@ using System.Linq;
 
 public class GameManager : MonoBehaviorInstance<GameManager>
 {
-    public bool isLeft;
-    public TextAsset TownName;
-    List<string> routes = new List<string>();
-    int i = 0;
-    bool isChooseCorrect = true;
-    public bool isWin = true;
-
     string correctTown;
+    [HideInInspector] public List<string> routes = new List<string>();
+    public string choosenTown;
+
+    int townIndex = 0;
+
+    public bool isWrong = false;
+    public bool isArriveHome = false;
 
     private void Start()
     {
-        routes = RouteManager.Instance.CreateRoute(4);
-        UIManager.Instance.SetRouteText(routes);
-        SetTown();
-    }
-
-    public void SetLeft(bool value)
-    {
-        isLeft = value;
-        PlayerScripts.Instance.isLeft = value;
+        routes = RouteManager.Instance.CreateRandomRoute(5);
+        DisplayTown();
     }
 
     private void Update()
     {
-        if (PlayerScripts.Instance.isFinish)
-        {
-            if (isChooseCorrect == false)
-            {
-                isWin = false;
-                UIManager.Instance.DisplayEndText(false);
-                return;
-            }
-            if (i == routes.Count + 1)
-            {
-                isWin = true;
-                UIManager.Instance.DisplayEndText(true);
-            }
-        }
-
         if(PlayerScripts.Instance.isFinish && !PlayerScripts.Instance.isStart)
         {
-            SetTown();
-            UIManager.Instance.SetUIActiveTrue();
-            PlayerScripts.Instance.ResetPoint();
+            CheckCorrectTown();
+            if (isWrong)
+            {
+                UIManager.Instance.SetEndText(false);
+                return;
+            }
+            DisplayTown();
+            UIManager.Instance.ActiveUI();
         }
     }
 
-    private void SetTown()
+    public void DisplayTown()
     {
-        string town1;
         string town2;
-        if (i == routes.Count)
+        if(townIndex < routes.Count)
         {
-            town1 = "HOME";
-            town2 = "HOME";
+            correctTown = routes[townIndex];
+            town2 = TownMaster.GetRandomTownExcept(correctTown);
+        }
+        else if(townIndex == routes.Count)
+        {
+            correctTown = "Home";
+            town2 = "Home";
         }
         else
         {
-            Debug.Log(i);
-            town1 = routes[i];
-            town2 = TownMaster.RandomTownExcept(town1);
+            isArriveHome = true;
+            MapManager.Instance.DisplayHomeMap();
+            return;
         }
 
-        correctTown = town1;
-        UIManager.Instance.DisplayTown(town1, town2);
-        i++;
+        if (Random.Range(0, 2) < 1)
+            UIManager.Instance.SetTown(correctTown, town2);
+        else
+            UIManager.Instance.SetTown(town2, correctTown);
+        townIndex++;
     }
 
-    public void CheckChooseCorrect()
+    public void CheckCorrectTown()
     {
-        string chooseText;
-        if (isLeft) chooseText = UIManager.Instance.town1;
-        else chooseText = UIManager.Instance.town2;
-
-        if (chooseText.Equals(correctTown)) isChooseCorrect = true;
-        else isChooseCorrect = false;
+        if (!choosenTown.Equals(correctTown))
+        {
+            isWrong = true;
+        }
     }
 }
 

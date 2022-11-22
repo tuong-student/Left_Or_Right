@@ -12,16 +12,6 @@ public class PlayerTest
     [UnityTest]
     public IEnumerator PlayerTestWithEnumeratorPasses()
     {
-        var obj = new GameObject();
-        var player = obj.AddComponent<PlayerScripts>();
-        player.points.Add(new Vector3(0, 1, 0));
-        player.points.Add(new Vector3(6, 1, 0));
-        player.points.Add(new Vector3(6, 4.5f, 0));
-
-        player.nextPoint = player.points[0];
-        player.MoveToTheNextPoint();
-        yield return new WaitForSeconds(2f);
-
-        Assert.AreEqual(player.points[+1], player.nextPoint);
+        yield return null;
     }
 }
