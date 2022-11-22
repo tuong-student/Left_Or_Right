@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class CustomButton : MonoBehaviour
 {
+    [SerializeField] RectTransform ShowPos, HidePos;
     Action action;
     Button button;
     
@@ -32,11 +33,11 @@ public class CustomButton : MonoBehaviour
 
     public void ShowAnimation()
     {
-        this.transform.DOMoveY(80f, 0.5f).SetEase(Ease.OutBounce);
+        this.transform.DOMoveY(ShowPos.position.y, 0.5f).SetEase(Ease.OutBounce);
     }
 
     public void HideAnimation()
     {
-        this.transform.DOMoveY(-200f, 0.5f).SetEase(Ease.InBounce);
+        this.transform.DOMoveY(HidePos.position.y, 0.5f).SetEase(Ease.InBounce);
     }
 }
