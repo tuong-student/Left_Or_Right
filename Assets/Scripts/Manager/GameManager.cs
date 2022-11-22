@@ -32,7 +32,9 @@ public class GameManager : MonoBehaviorInstance<GameManager>
                 return;
             }
             DisplayTown();
+            if (isArriveHome) return;
             UIManager.Instance.ActiveUI();
+            SoundManager.Instance.PlayAudio(SoundType.Improve);
         }
     }
 
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviorInstance<GameManager>
         {
             isArriveHome = true;
             MapManager.Instance.DisplayHomeMap();
+            UIManager.Instance.SetEndText(true);
             return;
         }
 

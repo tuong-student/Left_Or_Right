@@ -21,12 +21,13 @@ public class MapManager : MonoBehaviorInstance<MapManager>
             }
             mapIndex = temp;
 
+            PlayerScripts.Instance.Return();
+            if (GameManager.Instance.isArriveHome) return;
             for(int i = 0; i < mapList.Count; i++)
             {
                 if (i == mapIndex) mapList[i].SetActive(true);
                 else mapList[i].SetActive(false);
             }
-            PlayerScripts.Instance.Return();
         }
     }
 

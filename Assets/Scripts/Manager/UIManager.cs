@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviorInstance<UIManager>
 {
-    [SerializeField] GameObject TownZone, ButtonZone, IntroZone;
+    [SerializeField] GameObject TownZone, ButtonZone, IntroZone, EndZone;
     [SerializeField] CustomButton btnLeft, btnRight;
     [SerializeField] CustomPanel txtTown1, txtTown2;
     [SerializeField] Text txtRouteText, txtEndText, txtIntroText;
-    [SerializeField] Button startBtn;
+    [SerializeField] Button startBtn, restartBtn;
     string town1, town2;
 
     bool isDisplayEnd = false;
@@ -21,6 +22,7 @@ public class UIManager : MonoBehaviorInstance<UIManager>
         IntroZone.SetActive(true);
         TownZone.SetActive(false);
         ButtonZone.SetActive(false);
+        EndZone.SetActive(false);
         txtEndText.gameObject.SetActive(false);
 
         startBtn.onClick.AddListener(() =>
@@ -36,6 +38,12 @@ public class UIManager : MonoBehaviorInstance<UIManager>
                 ActiveUI();
                 IntroZone.SetActive(false);
             }
+            SoundManager.Instance.PlayAudio(SoundType.Click);
+        });
+
+        restartBtn.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         });
 
         btnLeft.SetAction(() =>
@@ -46,6 +54,7 @@ public class UIManager : MonoBehaviorInstance<UIManager>
             txtTown1.HideAnimation();
             txtTown2.HideAnimation();
             GameManager.Instance.choosenTown = town1;
+            SoundManager.Instance.PlayAudio(SoundType.Click);
 
             Invoke("DeactiveUI", 0.5f);
         });
@@ -58,6 +67,7 @@ public class UIManager : MonoBehaviorInstance<UIManager>
             txtTown1.HideAnimation();
             txtTown2.HideAnimation();
             GameManager.Instance.choosenTown = town2;
+            SoundManager.Instance.PlayAudio(SoundType.Click);
 
             Invoke("DeactiveUI", 0.5f);
         });
@@ -100,9 +110,14 @@ public class UIManager : MonoBehaviorInstance<UIManager>
     public void SetEndText(bool isWin)
     {
         if (isDisplayEnd) return;
+        EndZone.SetActive(true);
         if (isWin)
         {
-
+            txtEndText.transform.DOScale(0, 0f);
+            txtEndText.gameObject.SetActive(true);
+            txtEndText.text = "Welcome home";
+            txtEndText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo);
+            SoundManager.Instance.PlayAudio(SoundType.Success);
         }
         else
         {
@@ -110,6 +125,7 @@ public class UIManager : MonoBehaviorInstance<UIManager>
             txtEndText.gameObject.SetActive(true);
             txtEndText.text = "You choose wrong";
             txtEndText.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo);
+            SoundManager.Instance.PlayAudio(SoundType.Fail);
         }
         isDisplayEnd = true;
     }
