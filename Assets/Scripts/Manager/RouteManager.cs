@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NOOD;
 
 public class RouteManager : MonoBehaviorInstance<RouteManager>
 {
@@ -20,6 +21,11 @@ public class RouteManager : MonoBehaviorInstance<RouteManager>
         }
 
         return routes;
+    }
+
+    public string GetRandomTownInRoutes()
+    {
+        return routes[Random.Range(0, routes.Count)];
     }
 }
 

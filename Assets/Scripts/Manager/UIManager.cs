@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
+using NOOD;
 
 public class UIManager : MonoBehaviorInstance<UIManager>
 {
@@ -37,13 +38,15 @@ public class UIManager : MonoBehaviorInstance<UIManager>
             {
                 ActiveUI();
                 IntroZone.SetActive(false);
+                GameManager.Instance.OnGameStart?.Invoke();
             }
             SoundManager.Instance.PlayAudio(SoundType.Click);
         });
 
         restartBtn.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            PlayerScripts.Instance.Return();
+            MapManager.Instance.CreateNPC(NPCType.Sender);
         });
 
         btnLeft.SetAction(() =>
@@ -53,10 +56,10 @@ public class UIManager : MonoBehaviorInstance<UIManager>
             btnRight.HideAnimation();
             txtTown1.HideAnimation();
             txtTown2.HideAnimation();
-            GameManager.Instance.choosenTown = town1;
+            GameManager.Instance.SetChoseTown(town1);
             SoundManager.Instance.PlayAudio(SoundType.Click);
 
-            Invoke("DeactiveUI", 0.5f);
+            NoodyCustomCode.StartDelayFunction(DeActiveUI, 0.5f);
         });
 
         btnRight.SetAction(() =>
@@ -66,10 +69,10 @@ public class UIManager : MonoBehaviorInstance<UIManager>
             btnRight.HideAnimation();
             txtTown1.HideAnimation();
             txtTown2.HideAnimation();
-            GameManager.Instance.choosenTown = town2;
+            GameManager.Instance.SetChoseTown(town2);
             SoundManager.Instance.PlayAudio(SoundType.Click);
 
-            Invoke("DeactiveUI", 0.5f);
+            NoodyCustomCode.StartDelayFunction(DeActiveUI, 0.5f);
         });
     }
 
@@ -101,7 +104,7 @@ public class UIManager : MonoBehaviorInstance<UIManager>
         ButtonZone.SetActive(true);
     }
 
-    public void DeactiveUI()
+    public void DeActiveUI()
     {
         TownZone.SetActive(false);
         ButtonZone.SetActive(false);

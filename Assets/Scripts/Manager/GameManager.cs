@@ -1,24 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using NOOD;
 
 public class GameManager : MonoBehaviorInstance<GameManager>
 {
+    public Action OnGameStart;
+
     string correctTown;
     [HideInInspector] public List<string> routes = new List<string>();
-    public string choosenTown;
+    private string _chosenTown = "";
+    public string chosenTown => _chosenTown;
 
     int townIndex = 0;
 
+    #region Bool
+    private bool _isGameStart = false;
+    public bool isGameStart => _isGameStart;
     public bool isWrong = false;
     public bool isArriveHome = false;
+    #endregion
 
     private void Start()
     {
         routes = RouteManager.Instance.CreateRandomRoute(5);
         DisplayTown();
+        OnGameStart += () => { _isGameStart = true; };
     }
 
     private void Update()
@@ -59,7 +69,7 @@ public class GameManager : MonoBehaviorInstance<GameManager>
             return;
         }
 
-        if (Random.Range(0, 2) < 1)
+        if (UnityEngine.Random.Range(0, 2) < 1)
             UIManager.Instance.SetTown(correctTown, town2);
         else
             UIManager.Instance.SetTown(town2, correctTown);
@@ -68,10 +78,15 @@ public class GameManager : MonoBehaviorInstance<GameManager>
 
     public void CheckCorrectTown()
     {
-        if (!choosenTown.Equals(correctTown))
+        if (!chosenTown.Equals(correctTown))
         {
             isWrong = true;
         }
+    }
+
+    public void SetChoseTown(string choseTown)
+    {
+        this._chosenTown = choseTown;
     }
 }
 

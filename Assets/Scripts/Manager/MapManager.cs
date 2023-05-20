@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NOOD;
 
 public class MapManager : MonoBehaviorInstance<MapManager>
 {
-    [SerializeField] List<GameObject> mapList = new List<GameObject>();
-    [SerializeField] GameObject homeMap;
+    [SerializeField] private List<GameObject> mapList = new List<GameObject>();
+    [SerializeField] private GameObject homeMap;
+    [SerializeField] private string mapName;
 
     int mapIndex;
+    
+    private void Start() 
+    {
+        CreateNPC(NPCType.Sender);
+    }
 
     private void Update()
     {
@@ -25,7 +32,15 @@ public class MapManager : MonoBehaviorInstance<MapManager>
             if (GameManager.Instance.isArriveHome) return;
             for(int i = 0; i < mapList.Count; i++)
             {
-                if (i == mapIndex) mapList[i].SetActive(true);
+                if (i == mapIndex)
+                {
+                    mapList[i].SetActive(true); // Active map scene
+                    if(ShippingSystem.Instance.TryGetPackageBaseOnDestination(GameManager.Instance.chosenTown, out Package package))
+                    {
+                        // If map scene is a destination of a package, a NPC will be create
+                        CreateNPC(NPCType.Receiver);
+                    }
+                }
                 else mapList[i].SetActive(false);
             }
         }
@@ -38,5 +53,10 @@ public class MapManager : MonoBehaviorInstance<MapManager>
             map.SetActive(false);
         }
         homeMap.SetActive(true);
+    }
+
+    public void CreateNPC(NPCType type)
+    {
+        NPC.Create(new Vector3(2, -3, 0), type);
     }
 }

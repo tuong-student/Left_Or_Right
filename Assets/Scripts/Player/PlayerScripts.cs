@@ -1,18 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using NOOD;
 
 public class PlayerScripts : MonoBehaviorInstance<PlayerScripts>
 {
     [SerializeField] List<Vector3> movePoints = new List<Vector3>();
     Vector3 nextPoint;
+    private List<Package> packages = new List<Package>();
+    private float maxWeightLoad = 100f;
+    private float currentWeightLoad = 0f;
+    private float money = 0f;
 
-    int pointIndex;
+    private int pointIndex;
+    private float speed = 5f;
+
+    #region Event
+    public Action OnPlayerFinish;
+    #endregion
 
     #region Bool
     public bool isFinish;
     public bool isStart;
-    bool isLeft;
+    private bool isLeft;
     #endregion
 
     private void Start()
@@ -31,7 +43,7 @@ public class PlayerScripts : MonoBehaviorInstance<PlayerScripts>
             return;
         }
         if (isStart == true) return;
-        this.transform.position += NOOD.NoodyCustomCode.LookDirection(this.transform.position, nextPoint) * 2f * Time.deltaTime;
+        this.transform.position += NOOD.NoodyCustomCode.LookDirection(this.transform.position, nextPoint) * GetSpeed() * Time.deltaTime;
 
         if (pointIndex == 1) PlayerAnimation.Instance.  RunSide();
         else PlayerAnimation.Instance.RunUp();
@@ -41,6 +53,7 @@ public class PlayerScripts : MonoBehaviorInstance<PlayerScripts>
             if(pointIndex == movePoints.Count - 1)
             {
                 isFinish = true;
+                OnPlayerFinish?.Invoke();
             }
             else
             {
@@ -57,6 +70,43 @@ public class PlayerScripts : MonoBehaviorInstance<PlayerScripts>
                 }
             }
         }
+    }
+
+    public void AddPackage(Package package)
+    {
+        packages.Add(package);
+    }
+
+    public void AddMoney(float amount)
+    {
+        this.money += amount;
+    }
+
+    public bool TryToGetPackage(Package refPackage, out Package outPackage)
+    {
+        outPackage = null;
+        if(packages.Contains(refPackage))
+        {
+            outPackage = packages.First(x => x.Equals(refPackage));
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private float GetSpeed()
+    {
+        this.currentWeightLoad = 0;
+        foreach(Package package in packages)
+        {
+            this.currentWeightLoad += package.weight;
+        }
+        if(currentWeightLoad > 0)
+            return this.speed * (1 - ((float)(currentWeightLoad / maxWeightLoad)));
+        else
+            return speed;
     }
 
     public void Go(bool isLeft)
